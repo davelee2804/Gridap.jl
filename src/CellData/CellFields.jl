@@ -760,6 +760,9 @@ jump(a::SkeletonPair{<:CellField}) = a.⁺ + a.⁻ # a.⁻ results from multiply
 mean(a::CellField) = Operation(_mean)(a.⁺,a.⁻)
 _mean(x,y) = 0.5*x + 0.5*y
 
+# Upwinded skeleton mesh integral. Assumes a is the inner product of a vector field and a normal vector.
+upwind(a::SkeletonPair{<:CellField},b::CellField) = if a.⁺ > 0 b.⁺ else b.⁻ end
+
 # This is the fundamental part to make operations on the skeleton work.
 
 for fun in (:change_domain_ref_ref,:change_domain_phys_phys)
